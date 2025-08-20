@@ -1,6 +1,27 @@
 <%- include ('../../partials/header.ejs') %>
 <body>
-<%- include ('../../partials/navbar.ejs') %>
-    <h1>Testando</h1>
+  <%- include ('../../partials/navbar.ejs') %>
+  <div class="container">
+    <br>
+    <div class="card">
+      <div class="card-header">
+        <h2>Create New Category</h2>
+      </div>
+      <div class="card-body">
+        <form method="post" action="/categories/save">
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            placeholder="Category Name"
+            required
+          />
+          <br />
+          <button type="submit" class="btn btn-primary">Create Category</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 <%- include ('../../partials/footer.ejs') %>

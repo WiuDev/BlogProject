@@ -1,6 +1,38 @@
 <%- include ('partials/header.ejs') %>
 <body>
-<%- include ('partials/navbar.ejs') %>
-    <h1>Hello World!</h1>
+  <%- include ('partials/homenavbar.ejs') %>
+  <div class="container">
+    <br />
+    <div
+      class="jumbotron bg-gradient-primary text-white p-5 rounded shadow-sm mb-4"
+      style="background: linear-gradient(135deg, #007bff 0%, #6c63ff 100%)"
+    >
+      <h1 class="display-4 font-weight-bold mb-3">Welcome to the Blog</h1>
+      <hr class="my-4 border-light" />
+      <p class="lead mb-4">
+        Discover the latest articles, explore trending topics, and stay inspired
+        with our curated content.
+      </p>
+      <a
+        class="btn btn-light btn-lg font-weight-bold shadow"
+        href="#"
+        role="button"
+        >Learn more</a
+      >
+    </div>
+    <br />
+    <div class="container">
+      <% articles.forEach(article => {%>
+      <div class="card mb-3">
+        <div class="card-header">
+          <h2><%= article.title %></h2>
+        </div>
+        <div class="card-body">
+          <a href="/<%= article.slug %>" class="btn btn-primary">Read More</a>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
 </body>
 <%- include ('partials/footer.ejs') %>

@@ -1,0 +1,58 @@
+<%- include ('../../partials/header.ejs') %>
+<body>
+  <%- include ('../../partials/navbar.ejs') %>
+  <div class="container">
+    <br />
+    <div class="card">
+      <div class="card-header">
+        <h2>Create New Article</h2>
+      </div>
+      <div class="card-body">
+        <form method="post" action="/articles/save">
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            placeholder="Article Title"
+            required
+          />
+          <br />
+          <textarea
+            class="form-control mt-3"
+            id="article"
+            name="body"
+            placeholder="Article Content"
+          ></textarea>
+          <br />
+          <label>Categories</label>
+          <select
+            class="form-control mt-2"
+            id="category"
+            name="category"
+            required
+          >
+            <% categories.forEach((category) => { %>
+            <option value="<%= category.id %>"><%= category.title %></option>
+            <% }); %>
+          </select>
+          <br />
+          <button type="submit" class="btn btn-primary">Create Article</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<%- include ('../../partials/footer.ejs') %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector: "#article",
+    license_key: "gpl",
+    plugins:
+      "advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons",
+    toolbar:
+      "undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | preview",
+  });
+</script>

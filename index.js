@@ -28,12 +28,59 @@ connection
     console.error("Erro ao conectar-se ao banco de dados:", error);
   });
 
-
 app.use("/", categoriesController);
 app.use("/", articleController);
 
 app.get("/", (req, res) => {
-  res.render("index");
+  Article.findAll({ order: [["id", "DESC"]] })
+    .then((articles) => {
+      Category.findAll().then((categories) => {
+        res.render("index", { articles: articles, categories: categories });
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao buscar artigos:", error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+app.get("/:slug", (req, res) => {
+  let slug = req.params.slug;
+
+  Article.findOne({ where: { slug } })
+    .then((article) => {
+      if (!article) {
+        return res.status(404).send("Artigo não encontrado");
+      }
+      Category.findAll().then((categories) => {
+        res.render("article", { article: article, categories: categories });
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao buscar artigo:", error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+app.get("/categories/:slug", (req, res) => {
+  let slug = req.params.slug;
+
+  Category.findOne({ where: { slug }, include: [{ model: Article }] })
+    .then((category) => {
+      if (!category) {
+        return res.status(404).send("Categoria não encontrada");
+      }
+      Category.findAll().then((categories) => {
+        res.render("index", {
+          articles: category.articles,
+          categories: categories,
+        });
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao buscar categoria:", error);
+      res.status(500).send("Erro interno do servidor");
+    });
 });
 
 app.listen(8080, () => {
